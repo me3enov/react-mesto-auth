@@ -1,6 +1,8 @@
 .header__block-sign {
-  display: flex;
+  display: none;
   align-items: center;
+  opacity: 0;
+  visibility: hidden;
 }
 
 @media screen and (max-width: 709px) {
@@ -13,9 +15,12 @@
 
 @media screen and (min-width: 710px) {
   .header__block-sign {
+    display: flex;
     flex-direction: row;
     align-items: flex-end;
     justify-self: flex-end;
     padding: 0;
+    opacity: 1;
+    visibility: visible;
   }
 }

@@ -17,17 +17,14 @@ const SignUp = ({ setIsRegisterPopupOpen }) => {
     evt.preventDefault();
     signUp(email, password)
       .then((res) => {
-        if (res.data) {
-          resetForm();
-          setIsRegisterPopupOpen(res);
-          history.push('/');
-        } else {
-          setIsRegisterPopupOpen(res);
-        }
+        resetForm();
+        history.push('/');
+        setIsRegisterPopupOpen(res);
       })
       .catch((err) => {
+        setIsRegisterPopupOpen(err);
         console.log(err);
-      });
+      })
   };
 
   return (

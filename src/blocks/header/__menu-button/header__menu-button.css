@@ -1,5 +1,4 @@
 .header__menu-button {
-  display: flex;
   justify-self: end;
   align-self: center;
   flex-shrink: 0;
@@ -35,5 +34,17 @@
 @media screen and (max-width: 918px) {
   .header__menu-button {
     margin-right: 27px;
+  }
+}
+
+@media screen and (max-width: 709px) {
+  .header__menu-button {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 710px) {
+  .header__menu-button {
+    display: none;
   }
 }

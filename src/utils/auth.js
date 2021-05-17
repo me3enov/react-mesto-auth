@@ -8,15 +8,7 @@ export const signUp = (email, password) => {
     },
     body: JSON.stringify({ email, password }),
   })
-    .then((res) => {
-      return res.json();
-    })
-    .then((res) => {
-      return res;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  .then(res => checkServerResponse(res))
 };
 
 export const signIn = (email, password) => {
@@ -27,14 +19,7 @@ export const signIn = (email, password) => {
     },
     body: JSON.stringify({ email, password }),
   })
-    .then((response) => response.json())
-    .then((data) => {
-      localStorage.setItem('jwt', data.token);
-      return data;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  .then(res => checkServerResponse(res))
 };
 
 export const getMe = (token) => {
@@ -45,11 +30,12 @@ export const getMe = (token) => {
       Authorization: `Bearer ${token}`,
     },
   })
-    .then((res) => {
-      return res.json();
-    })
-    .then((data) => data)
-    .catch((err) => {
-      console.log(err);
-    });
+    .then(res => checkServerResponse(res))
 };
+
+function checkServerResponse(res) {
+  if (!res.ok) {
+    return Promise.reject(`${this._errorText} ${res.status}`);
+  }
+  return res.json();
+}

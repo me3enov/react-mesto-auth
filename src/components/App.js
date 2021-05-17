@@ -42,21 +42,16 @@ function App() {
     if (jwt) {
       getMe(jwt)
         .then((res) => {
-          if (res) {
-            setLoggedIn(true);
-            setUserEmail(res.data.email);
-            history.push('/');
-          }
+          setLoggedIn(true);
+          setUserEmail(res.data.email);
+          history.push('/');
         })
         .catch((err) => {
           console.log(err);
         });
     }
   };
-
-  useEffect(() => {
-    checkToken();
-  }, [loggedIn]);
+  checkToken();
 
   useEffect(() => {
     api.getCards()
@@ -83,7 +78,7 @@ function App() {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
     api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
       const newCards = cards.map((c) => c._id === card._id ? newCard : c);
-      setCards(newCards);
+      setCards((cards) => cards.map(newCards));
     })
       .catch(err => console.log(err));
   }

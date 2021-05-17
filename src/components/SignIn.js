@@ -8,20 +8,13 @@ function Login({ handleSignIn }) {
 
   const history = useHistory();
 
-  const resetForm = () => {
-    setEmail('');
-    setPassword('');
-  };
-
   const handleSubmit = (evt) => {
     evt.preventDefault();
     signIn (email, password)
-      .then((data) => {
-        if (data.token) {
-          resetForm();
-          handleSignIn();
-          history.push('/');
-        }
+      .then((res) => {
+        handleSignIn();
+        localStorage.setItem('jwt', res.token);
+        history.push('/');
       })
       .catch((err) => {
         console.log(err);

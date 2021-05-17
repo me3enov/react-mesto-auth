@@ -1,9 +1,13 @@
 import { Link } from "react-router-dom";
 
-function NavBar ({ loggedIn, userEmail, buttonData, quit }) {
+function NavBar ({ loggedIn, btnMenuActive, userEmail, buttonData, quit }) {
 
   return (
-    <div className='header__block-sign'>
+    <div className={!btnMenuActive ? (
+      'header__block-sign'
+    ) : (
+      'header__block-sign header__block-sign_opened'
+    )}>
       {loggedIn ?
         <>
           <p className='header__text'>{userEmail}</p>

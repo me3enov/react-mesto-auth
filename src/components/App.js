@@ -29,6 +29,10 @@ function App() {
 
   const history = useHistory();
 
+  useEffect(() => {
+    checkToken();
+  }, []);
+
   const handleSignIn = () => {
     setLoggedIn(true);
   };
@@ -51,7 +55,6 @@ function App() {
         });
     }
   };
-  checkToken();
 
   useEffect(() => {
     api.getCards()

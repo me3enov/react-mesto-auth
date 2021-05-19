@@ -85,7 +85,7 @@ class Api {
   //change like card status
   changeLikeCardStatus(cardId, isLiked) {
     return fetch(`${this._url}${this._cardsLikesUrl}${cardId}`, {
-        method: isLiked ? "PUT" : "DELETE",
+        method: isLiked ? 'PUT' : 'DELETE',
         headers: this._headers
       })
       .then(this._checkServerResponse)

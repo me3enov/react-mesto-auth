@@ -1,6 +1,6 @@
 const authUrl = 'https://auth.nomoreparties.co';
 
-export const signUp = (email, password) => {
+export const registration = (email, password) => {
   return fetch(`${authUrl}/signup`, {
     method: 'POST',
     headers: {
@@ -11,7 +11,7 @@ export const signUp = (email, password) => {
   .then(res => checkServerResponse(res))
 };
 
-export const signIn = (email, password) => {
+export const login = (email, password) => {
   return fetch(`${authUrl}/signin`, {
     method: 'POST',
     headers: {

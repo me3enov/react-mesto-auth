@@ -1,19 +1,19 @@
-import React, {useState, useEffect} from 'react';
-import { Switch, Route, Redirect, useHistory } from "react-router-dom";
-import ProtectedRoute from "./ProtectedRoute.js";
-import CurrentUserContext from "../contexts/CurrentUserContext";
-import api from "../utils/api";
+import {useState, useEffect} from 'react';
+import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
+import ProtectedRoute from './ProtectedRoute';
+import CurrentUserContext from '../contexts/CurrentUserContext';
+import api from '../utils/api';
 import { getMe } from '../utils/auth';
-import Header from "./Header";
-import Main from "./Main";
-import SignIn from "./SignIn.js";
-import SignUp from "./SignUp.js";
+import Header from './Header';
+import Main from './Main';
+import SignIn from './SignIn';
+import SignUp from './SignUp';
 import InfoTooltip from './InfoTooltip';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import ImagePopup from './ImagePopup'
-import Footer from "./Footer";
+import Footer from './Footer';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -26,6 +26,7 @@ function App() {
 
   const [loggedIn, setLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState('');
+  const [isLoading, setLoading] = useState(false);
 
   const history = useHistory();
 
@@ -65,6 +66,7 @@ function App() {
   }, []);
 
   function handleAddPlace(card) {
+    setLoading(true);
     const cardData = {
       name: card.name,
       link: card.link
@@ -75,23 +77,28 @@ function App() {
         closeAllPopups();
       })
       .catch(err => console.log(err))
+      .finally(() => setLoading(false));
   }
 
   function handleCardLike(card) {
+    setLoading(true);
     const isLiked = card.likes.some(i => i._id === currentUser._id);
     api.changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
         setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
       })
-      .catch(err => console.log(err));
+      .catch(err => console.log(err))
+      .finally(() => setLoading(false));
   }
 
   function handleCardDelete(card) {
+    setLoading(true);
     api.removeCard(card)
       .then(() => {
         setCards(cards.filter(item => item._id !== card._id));
       })
-      .catch(err => console.log(err));
+      .catch(err => console.log(err))
+      .finally(() => setLoading(false));
   }
 
   useEffect(() => {
@@ -103,6 +110,7 @@ function App() {
   }, [])
 
   function handleUpdateUser(user) {
+    setLoading(true);
     const profile = {
       name: user.name,
       about: user.about
@@ -113,15 +121,18 @@ function App() {
         closeAllPopups();
       })
       .catch(err => console.log(err))
+      .finally(() => setLoading(false));
   }
 
   function handleUpdateAvatar(user) {
+    setLoading(true);
     api.setUserAvatar(user.avatar)
       .then(res => {
         setCurrentUser(res);
         closeAllPopups();
       })
       .catch(err => console.log(err))
+      .finally(() => setLoading(false));
   }
 
   function handleEditProfileClick() {
@@ -162,16 +173,15 @@ function App() {
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <div className="app">
-        <div className="root">
+      <div className='app'>
+        <div className='root'>
           <Header
             loggedIn={loggedIn}
             userEmail={userEmail}
-            onQuit={handleSignOut}
-          />
+            onQuit={handleSignOut} />
             <Switch>
               <ProtectedRoute
-                exact path="/"
+                exact path='/'
                 loggedIn={loggedIn}
                 component={Main}
                 onEditProfile={handleEditProfileClick}
@@ -180,21 +190,23 @@ function App() {
                 cards={cards}
                 onCardLike={handleCardLike}
                 onCardDelete={handleCardDelete}
-                onCardClick={handleCardClick}
-              />
+                onCardClick={handleCardClick} />
               <Route path='/signup'>
                 <SignUp
-                  setIsRegisterPopupOpen={setIsRegisterStatusPopupOpen}
-                  isOpen={isRegisterStatusPopupOpen} />
+                  onInfoTooltipOpen={setIsRegisterStatusPopupOpen}
+                  onLoading={setLoading}
+                  isLoading={isLoading} />
               </Route>
               <Route path='/signin'>
-                <SignIn handleSignIn = {handleSignIn} />
+                <SignIn handleSignIn = {handleSignIn}
+                onLoading={setLoading}
+                isLoading={isLoading} />
               </Route>
               <Route>
                 {loggedIn ? (
-                  <Redirect to="/" />
+                  <Redirect to='/' />
                 ) : (
-                  <Redirect to="/signin" />
+                  <Redirect to='/signin' />
                 )}
               </Route>
             </Switch>
@@ -202,23 +214,24 @@ function App() {
           <EditProfilePopup
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
-            onUpdateUser={handleUpdateUser}/>
+            onUpdateUser={handleUpdateUser}
+            isLoading={isLoading} />
           <EditAvatarPopup
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopups}
-            onUpdateAvatar={handleUpdateAvatar}/>
+            onUpdateAvatar={handleUpdateAvatar}
+            isLoading={isLoading} />
           <AddPlacePopup
             isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
-            onAddPlace={handleAddPlace}/>
+            onAddPlace={handleAddPlace}
+            isLoading={isLoading} />
           <ImagePopup
             card={selectedCard}
-            onClose={closeAllPopups}
-          />
+            onClose={closeAllPopups} />
           <InfoTooltip
             isOpen={isRegisterStatusPopupOpen}
-            onClose={closeAllPopups}
-          />
+            onClose={closeAllPopups} />
         </div>
       </div>
     </CurrentUserContext.Provider>

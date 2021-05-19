@@ -80,6 +80,8 @@
 @import url(./blocks/form/__submit-button/form__submit-button.css);
 @import url(./blocks/form/__submit-button/_inactive/form__submit-button_inactive.css);
 @import url(./blocks/form/__submit-button/_place/form__submit-button_place_sign.css);
+@import url(./blocks/form/__submit-button/_loading/form__submit-button_loading-black-icon.css);
+@import url(./blocks/form/__submit-button/_loading/form__submit-button_loading-white-icon.css);
 @import url(./blocks/form/__title/form__title.css);
 @import url(./blocks/form/__title/_place/form__title_place_add.css);
 

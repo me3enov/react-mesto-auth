@@ -1,8 +1,8 @@
-import React, { useState, useContext, useEffect } from 'react';
-import PopupWithForm from "./PopupWithForm";
-import CurrentUserContext from "../contexts/CurrentUserContext";
+import { useState, useContext, useEffect } from 'react';
+import PopupWithForm from './PopupWithForm';
+import CurrentUserContext from '../contexts/CurrentUserContext';
 
-function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
+function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
   const currentUser = useContext(CurrentUserContext);
 
   const [name, setName] = useState('');
@@ -32,40 +32,42 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
 
   return (
     <PopupWithForm
-      name="place_edit"
-      title="Редактировать профиль"
-      buttonText="Сохранить"
+      name='place_edit'
+      title='Редактировать профиль'
+      buttonText='Сохранить'
+      buttonTextLoading='Сохранение...'
       isOpen={isOpen}
       onClose={onClose}
-      onSubmit={handleSubmit}>
+      onSubmit={handleSubmit}
+      isLoading={isLoading}>
         <input
-          id="form__input_string_name"
-          className="form__input form__input_string_name"
-          name="name"
-          type="text"
-          placeholder="Имя"
-          minLength="2"
-          maxLength="40"
+          id='form__input_string_name'
+          className='form__input form__input_string_name'
+          name='name'
+          type='text'
+          placeholder='Имя'
+          minLength='2'
+          maxLength='40'
           required
           value={name ? name : ''}
           onChange={handleUserName}/>
         <span
-          id="form__input_string_name-error"
-          className="form__input-error"/>
+          id='form__input_string_name-error'
+          className='form__input-error'/>
         <input
-          id="form__input_string_job"
-          className="form__input form__input_string_job"
-          name="about"
-          type="text"
-          placeholder="О себе"
-          minLength="2"
-          maxLength="200"
+          id='form__input_string_job'
+          className='form__input form__input_string_job'
+          name='about'
+          type='text'
+          placeholder='О себе'
+          minLength='2'
+          maxLength='200'
           required
           value={description ? description : ''}
           onChange={handleUserDescription}/>
         <span
-          id="form__input_string_job-error"
-          className="form__input-error"/>
+          id='form__input_string_job-error'
+          className='form__input-error'/>
     </PopupWithForm>
   )
 }

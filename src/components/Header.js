@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Route, Link, useHistory } from "react-router-dom";
-import NavBar from "./NavBar";
+import { useState } from 'react';
+import { Route, Link, useHistory } from 'react-router-dom';
+import NavBar from './NavBar';
 
 function Header({ loggedIn, userEmail, onQuit }) {
   const [btnMenuActive, setBtnMenuActive] = useState(false);
@@ -31,8 +31,8 @@ function Header({ loggedIn, userEmail, onQuit }) {
               <div className='header__logo'></div>
             </Link>
             <button
-              className="header__menu-button"
-              type="button"
+              className='header__menu-button'
+              type='button'
               onClick={handleSetBtnMenuActive}
             />
           </div>
@@ -56,8 +56,8 @@ function Header({ loggedIn, userEmail, onQuit }) {
               <div className='header__logo'></div>
             </Link>
             <button
-              className="header__menu-button header__menu-button_state_close"
-              type="button"
+              className='header__menu-button header__menu-button_state_close'
+              type='button'
               onClick={handleSetBtnMenuActive}
             />
           </div>

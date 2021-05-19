@@ -1,7 +1,7 @@
-import React, { useRef, useEffect } from 'react';
-import PopupWithForm from "./PopupWithForm";
+import { useRef, useEffect } from 'react';
+import PopupWithForm from './PopupWithForm';
 
-function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
+function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
   const avaRef = useRef('');
 
   useEffect(() => {
@@ -17,23 +17,25 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
 
   return(
     <PopupWithForm
-      name="place_avatar"
-      title="Обновить аватар"
-      buttonText="Сохранить"
+      name='place_avatar'
+      title='Обновить аватар'
+      buttonText='Сохранить'
+      buttonTextLoading='Сохранение...'
       isOpen={isOpen}
       onClose={onClose}
-      onSubmit={handleSubmit}>
+      onSubmit={handleSubmit}
+      isLoading={isLoading}>
         <input
-          id="form__input_string_avatar"
-          className="form__input form__input_string_avatar"
-          type="url"
-          name="link"
-          placeholder="Ссылка на картинку"
+          id='form__input_string_avatar'
+          className='form__input form__input_string_avatar'
+          type='url'
+          name='link'
+          placeholder='Ссылка на картинку'
           required
           ref={avaRef}/>
         <span
-          id="form__input_string_avatar-error"
-          className="form__input-error"/>
+          id='form__input_string_avatar-error'
+          className='form__input-error'/>
       </PopupWithForm>
   )
 }

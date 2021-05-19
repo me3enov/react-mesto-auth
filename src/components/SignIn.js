@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { signIn } from '../utils/auth.js';
+import { login } from '../utils/auth.js';
 
-function Login({ handleSignIn }) {
+function SignIn({ handleSignIn, onLoading, isLoading }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -10,7 +10,8 @@ function Login({ handleSignIn }) {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    signIn (email, password)
+    onLoading(true);
+    login (email, password)
       .then((res) => {
         handleSignIn();
         localStorage.setItem('jwt', res.token);
@@ -18,7 +19,8 @@ function Login({ handleSignIn }) {
       })
       .catch((err) => {
         console.log(err);
-      });
+      })
+      .finally(() => onLoading(false));
   };
 
   return (
@@ -28,15 +30,23 @@ function Login({ handleSignIn }) {
         <fieldset className='sign__auth-box'>
           <input
             type='email'
+            name='signin-email'
             className='form__input form__input_place_sign'
             placeholder='Email'
+            minLength='5'
+            maxLength='40'
+            value={email}
             required={true}
             onChange={(evt) => setEmail(evt.target.value)}
           />
           <input
             type='password'
+            name='signin-password'
             className='form__input form__input_place_sign'
             placeholder='Пароль'
+            minLength='3'
+            maxLength='40'
+            value={password}
             required={true}
             onChange={(evt) => setPassword(evt.target.value)}
           />
@@ -44,8 +54,14 @@ function Login({ handleSignIn }) {
         <fieldset className='sign__auth-box'>
           <button
             type='submit'
-            className='form__submit-button form__submit-button_place_sign'>
-              Войти
+            className={isLoading ? (
+              'form__submit-button form__submit-button_place_sign form__submit-button_loading-black-icon'
+            ) : (
+              'form__submit-button form__submit-button_place_sign'
+            )}>
+              {isLoading ?
+              'Вход...'
+              : 'Войти'}
           </button>
           <Link className='sign__link' to='/signup'>
             Ещё не зарегистрированы? Регистрация
@@ -56,4 +72,4 @@ function Login({ handleSignIn }) {
   );
 }
 
-export default Login;
+export default SignIn;

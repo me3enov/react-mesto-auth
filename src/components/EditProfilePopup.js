@@ -32,7 +32,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
 
   return (
     <PopupWithForm
-      name='place_edit'
+      name='edit'
       title='Редактировать профиль'
       buttonText='Сохранить'
       buttonTextLoading='Сохранение...'

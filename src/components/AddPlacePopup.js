@@ -29,7 +29,7 @@ function AddPlacePopup ({ isOpen, onClose, onAddPlace, isLoading }) {
 
   return(
     <PopupWithForm
-      name='place_add'
+      name='add'
       title='Новое место'
       buttonText='Создать'
       buttonTextLoading='Создание...'

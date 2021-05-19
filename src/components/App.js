@@ -11,6 +11,7 @@ import SignUp from './SignUp';
 import InfoTooltip from './InfoTooltip';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
+import ConfirmPopup from './ConfirmPopup';
 import AddPlacePopup from './AddPlacePopup';
 import ImagePopup from './ImagePopup'
 import Footer from './Footer';
@@ -19,7 +20,9 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
   const [isRegisterStatusPopupOpen, setIsRegisterStatusPopupOpen] = useState(false);
+  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
@@ -29,10 +32,6 @@ function App() {
   const [isLoading, setLoading] = useState(false);
 
   const history = useHistory();
-
-  useEffect(() => {
-    checkToken();
-  }, []);
 
   const handleSignIn = () => {
     setLoggedIn(true);
@@ -81,14 +80,12 @@ function App() {
   }
 
   function handleCardLike(card) {
-    setLoading(true);
     const isLiked = card.likes.some(i => i._id === currentUser._id);
     api.changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
         setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
       })
       .catch(err => console.log(err))
-      .finally(() => setLoading(false));
   }
 
   function handleCardDelete(card) {
@@ -96,6 +93,7 @@ function App() {
     api.removeCard(card)
       .then(() => {
         setCards(cards.filter(item => item._id !== card._id));
+        closeAllPopups();
       })
       .catch(err => console.log(err))
       .finally(() => setLoading(false));
@@ -149,12 +147,20 @@ function App() {
 
   function handleCardClick(card) {
     setSelectedCard(card);
+    setIsImagePopupOpen(true);
+  }
+
+  function handleDeleteClick(card) {
+    setSelectedCard(card);
+    setIsDeletePopupOpen(true);
   }
 
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
+    setIsDeletePopupOpen(false);
+    setIsImagePopupOpen(false);
     setIsRegisterStatusPopupOpen(false);
     setSelectedCard(null)
   }
@@ -170,6 +176,10 @@ function App() {
       document.removeEventListener('keydown', handleEscClose);
     };
   }, [])
+
+  useEffect(() => {
+    checkToken();
+  }, []);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -188,9 +198,9 @@ function App() {
                 onAddPlace={handleAddPlaceClick}
                 onEditAvatar={handleEditAvatarClick}
                 cards={cards}
+                onCardClick={handleCardClick}
                 onCardLike={handleCardLike}
-                onCardDelete={handleCardDelete}
-                onCardClick={handleCardClick} />
+                onCardDelete={handleDeleteClick} />
               <Route path='/signup'>
                 <SignUp
                   onInfoTooltipOpen={setIsRegisterStatusPopupOpen}
@@ -227,8 +237,15 @@ function App() {
             onAddPlace={handleAddPlace}
             isLoading={isLoading} />
           <ImagePopup
+            isOpen={isImagePopupOpen}
             card={selectedCard}
             onClose={closeAllPopups} />
+          <ConfirmPopup
+            isOpen={isDeletePopupOpen}
+            onClose={closeAllPopups}
+            onDelete={handleCardDelete}
+            card={selectedCard}
+            isLoading={isLoading} />
           <InfoTooltip
             isOpen={isRegisterStatusPopupOpen}
             onClose={closeAllPopups} />

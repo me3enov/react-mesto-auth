@@ -17,7 +17,7 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
 
   return(
     <PopupWithForm
-      name='place_avatar'
+      name='avatar'
       title='Обновить аватар'
       buttonText='Сохранить'
       buttonTextLoading='Сохранение...'

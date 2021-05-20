@@ -15,6 +15,27 @@ import ConfirmPopup from './ConfirmPopup';
 import AddPlacePopup from './AddPlacePopup';
 import ImagePopup from './ImagePopup'
 import Footer from './Footer';
+import {
+  routeLinks,
+  btnRouteLinksText,
+  signConfig,
+  popupConfig,
+  formAll,
+  cardConfig,
+  addPlacePopupConfig,
+  confirmPopupConfig,
+  editAvatarPopupConfig,
+  editProfilePopupConfig,
+  footerConfig,
+  headerConfig,
+  imagePopupConfig,
+  InfoTooltipConfig,
+  mainConfig,
+  navBarConfig,
+  popupWithFormConfig,
+  signInConfig,
+  signUpConfig
+} from '../utils/constants';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -33,6 +54,12 @@ function App() {
   const [isLoading, setLoading] = useState(false);
 
   const history = useHistory();
+
+  const {
+    signUpLink,
+    signInLink,
+    homeLink
+  } = routeLinks;
 
   const handleSignIn = () => {
     setLoggedIn(true);
@@ -186,69 +213,121 @@ function App() {
           <Header
             loggedIn={loggedIn}
             userEmail={userEmail}
-            onQuit={handleSignOut} />
+            routeLinks={routeLinks}
+            formAll={formAll}
+            btnRouteLinksText={btnRouteLinksText}
+            headerConfig={headerConfig}
+            navBarConfig={navBarConfig}
+            onQuit={handleSignOut}
+          />
             <Switch>
               <ProtectedRoute
-                exact path='/'
+                exact path={homeLink}
                 loggedIn={loggedIn}
                 component={Main}
+                formAll={formAll}
+                mainConfig={mainConfig}
+                cardConfig={cardConfig}
                 onEditProfile={handleEditProfileClick}
                 onAddPlace={handleAddPlaceClick}
                 onEditAvatar={handleEditAvatarClick}
                 cards={cards}
                 onCardClick={handleCardClick}
                 onCardLike={handleCardLike}
-                onCardDelete={handleDeleteClick} />
-              <Route path='/signup'>
+                onCardDelete={handleDeleteClick}
+              />
+              <Route path={signUpLink}>
                 <SignUp
+                  routeLinks={routeLinks}
+                  formAll={formAll}
+                  signConfig={signConfig}
+                  signUpConfig={signUpConfig}
                   onInfoTooltipOpen={setIsInfoTooltipOpen}
                   setIsSuccessSignUp={setIsSuccessSignUp}
                   onLoading={setLoading}
-                  isLoading={isLoading} />
+                  isLoading={isLoading}
+                />
               </Route>
-              <Route path='/signin'>
-                <SignIn handleSignIn = {handleSignIn}
-                onLoading={setLoading}
-                isLoading={isLoading} />
+              <Route path={signInLink}>
+                <SignIn
+                  routeLinks={routeLinks}
+                  formAll={formAll}
+                  signConfig={signConfig}
+                  signInConfig={signInConfig}
+                  handleSignIn = {handleSignIn}
+                  onLoading={setLoading}
+                  isLoading={isLoading}
+                />
               </Route>
               <Route>
                 {loggedIn ? (
-                  <Redirect to='/' />
+                  <Redirect to={homeLink} />
                 ) : (
-                  <Redirect to='/signin' />
+                  <Redirect to={signInLink} />
                 )}
               </Route>
             </Switch>
-          <Footer />
+          <Footer
+            routeLinks={routeLinks}
+            footerConfig={footerConfig}
+          />
           <EditProfilePopup
+            formAll={formAll}
+            editProfilePopupConfig={editProfilePopupConfig}
+            popupConfig={popupConfig}
+            popupWithFormConfig={popupWithFormConfig}
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
             onUpdateUser={handleUpdateUser}
-            isLoading={isLoading} />
+            isLoading={isLoading}
+          />
           <EditAvatarPopup
+            formAll={formAll}
+            editAvatarPopupConfig={editAvatarPopupConfig}
+            popupConfig={popupConfig}
+            popupWithFormConfig={popupWithFormConfig}
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopups}
             onUpdateAvatar={handleUpdateAvatar}
-            isLoading={isLoading} />
+            isLoading={isLoading}
+          />
           <AddPlacePopup
+            formAll={formAll}
+            addPlacePopupConfig={addPlacePopupConfig}
+            popupConfig={popupConfig}
+            popupWithFormConfig={popupWithFormConfig}
             isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
             onAddPlace={handleAddPlace}
-            isLoading={isLoading} />
+            isLoading={isLoading}
+          />
           <ImagePopup
+            formAll={formAll}
+            popupConfig={popupConfig}
+            imagePopupConfig={imagePopupConfig}
             isOpen={isImagePopupOpen}
             card={selectedCard}
-            onClose={closeAllPopups} />
+            onClose={closeAllPopups}
+          />
           <ConfirmPopup
+            formAll={formAll}
+            confirmPopupConfig={confirmPopupConfig}
+            popupConfig={popupConfig}
+            popupWithFormConfig={popupWithFormConfig}
             isOpen={isDeletePopupOpen}
             onClose={closeAllPopups}
             onDelete={handleCardDelete}
             card={selectedCard}
-            isLoading={isLoading} />
+            isLoading={isLoading}
+          />
           <InfoTooltip
+            formAll={formAll}
+            popupConfig={popupConfig}
+            InfoTooltipConfig={InfoTooltipConfig}
             isOpen={isInfoTooltipOpen}
             isSuccess={isSuccessSignUp}
-            onClose={closeAllPopups} />
+            onClose={closeAllPopups}
+          />
         </div>
       </div>
     </CurrentUserContext.Provider>

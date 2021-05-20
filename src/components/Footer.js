@@ -1,12 +1,22 @@
 import { Route } from 'react-router-dom';
 
-function Footer() {
+function Footer({
+  routeLinks,
+  footerConfig }) {
+
   const currentYear = new Date().getFullYear();
+  const { homeLink } = routeLinks;
+  const {
+    classFooter,
+    ariaLabelFooter,
+    classFooterCopyright,
+    footerText
+  } = footerConfig;
   return (
     <>
-      <Route exact path='/'>
-        <footer className='footer root__footer' aria-label='Footer'>
-          <p className='footer__copyright'>&copy; {currentYear} Артем Мезенов</p>
+      <Route exact path={homeLink}>
+        <footer className={classFooter} aria-label={ariaLabelFooter}>
+          <p className={classFooterCopyright}>&copy;{`${currentYear} ${footerText}`}</p>
         </footer>
       </Route>
     </>

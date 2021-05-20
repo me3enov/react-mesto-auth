@@ -2,11 +2,48 @@ import { useState, useContext, useEffect } from 'react';
 import PopupWithForm from './PopupWithForm';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 
-function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
-  const currentUser = useContext(CurrentUserContext);
+function EditProfilePopup({
+  formAll,
+  editProfilePopupConfig,
+  popupConfig,
+  popupWithFormConfig,
+  isOpen,
+  onClose,
+  onUpdateUser,
+  isLoading }) {
 
+  const currentUser = useContext(CurrentUserContext);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+  const {
+    typeInputText,
+    classInput,
+    //classErrorInput,
+    classSpan,
+    //classErrorSpan
+  } = formAll;
+  const {
+    nameForm,
+    titleForm,
+    buttonText,
+    buttonTextLoading,
+    idInputName,
+    classInputName,
+    nameInputName,
+    placeholderInputName,
+    minLengthInputName,
+    maxLengthInputName,
+    idSpanName,
+    classSpanName,
+    idInputAbout,
+    classInputAbout,
+    nameInputAbout,
+    placeholderInputAbout,
+    minLengthInputAbout,
+    maxLengthInputAbout,
+    idSpanAbout,
+    classSpanAbout
+  } = editProfilePopupConfig;
 
   useEffect(() => {
     setName(currentUser.name);
@@ -32,42 +69,49 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
 
   return (
     <PopupWithForm
-      name='edit'
-      title='Редактировать профиль'
-      buttonText='Сохранить'
-      buttonTextLoading='Сохранение...'
+      formAll={formAll}
+      popupConfig={popupConfig}
+      popupWithFormConfig={popupWithFormConfig}
+      name={nameForm}
+      title={titleForm}
+      buttonText={buttonText}
+      buttonTextLoading={buttonTextLoading}
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
       isLoading={isLoading}>
         <input
-          id='form__input_string_name'
-          className='form__input form__input_string_name'
-          name='name'
-          type='text'
-          placeholder='Имя'
-          minLength='2'
-          maxLength='40'
+          id={idInputName}
+          className={`${classInput} ${classInputName}`}
+          name={nameInputName}
+          type={typeInputText}
+          placeholder={placeholderInputName}
+          minLength={minLengthInputName}
+          maxLength={maxLengthInputName}
           required
           value={name ? name : ''}
-          onChange={handleUserName}/>
+          onChange={handleUserName}
+        />
         <span
-          id='form__input_string_name-error'
-          className='form__input-error'/>
+          id={idSpanName}
+          className={`${classSpan} ${classSpanName}`}
+        />
         <input
-          id='form__input_string_job'
-          className='form__input form__input_string_job'
-          name='about'
-          type='text'
-          placeholder='О себе'
-          minLength='2'
-          maxLength='200'
+          id={idInputAbout}
+          className={`${classInput} ${classInputAbout}`}
+          name={nameInputAbout}
+          type={typeInputText}
+          placeholder={placeholderInputAbout}
+          minLength={minLengthInputAbout}
+          maxLength={maxLengthInputAbout}
           required
           value={description ? description : ''}
-          onChange={handleUserDescription}/>
+          onChange={handleUserDescription}
+        />
         <span
-          id='form__input_string_job-error'
-          className='form__input-error'/>
+          id={idSpanAbout}
+          className={`${classSpan} ${classSpanAbout}`}
+        />
     </PopupWithForm>
   )
 }

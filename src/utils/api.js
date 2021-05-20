@@ -1,3 +1,5 @@
+import { apiConfig } from './constants';
+
 class Api {
   constructor(config) {
     this._headers = {
@@ -100,14 +102,6 @@ class Api {
   }
 }
 
-const api = new Api({
-  authorization: '08402336-c176-4b17-bc07-4e156c9de6bc',
-  url: 'https://mesto.nomoreparties.co/v1/cohort-21',
-  cardsUrl: '/cards',
-  cardsLikesUrl: '/cards/likes/',
-  userAvatarUrl: '/users/me/avatar',
-  userInfoUrl: '/users/me',
-  errorText: 'Ошибка:'
-});
+const api = new Api(apiConfig);
 
 export default api;

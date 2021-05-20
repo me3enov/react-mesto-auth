@@ -1,4 +1,4 @@
-const authUrl = 'https://auth.nomoreparties.co';
+import { authUrl } from './constants';
 
 export const registration = (email, password) => {
   return fetch(`${authUrl}/signup`, {

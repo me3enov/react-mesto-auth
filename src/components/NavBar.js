@@ -1,19 +1,37 @@
 import { Link } from 'react-router-dom';
 
-function NavBar ({ loggedIn, btnMenuActive, userEmail, buttonData, quit }) {
+function NavBar ({
+  loggedIn,
+  btnMenuActive,
+  userEmail,
+  link,
+  btnText,
+  btnRouteLinksText,
+  navBarConfig,
+  quit }) {
+
+  const { btnToHomeText } = btnRouteLinksText;
+  const {
+    classHeaderBlockSign,
+    classHeaderBlockSignOpened,
+    classHeaderText,
+    classHeaderLink,
+    classHeaderTextLink,
+    classHeaderTextLinkExit
+  } = navBarConfig;
 
   return (
-    <div className={`header__block-sign ${btnMenuActive ? 'header__block-sign_opened' : ''}`}>
+    <div className={`${classHeaderBlockSign} ${btnMenuActive ? classHeaderBlockSignOpened : ''}`}>
       {loggedIn ?
         <>
-          <p className='header__text'>{userEmail}</p>
-          <Link className='header__link' to={buttonData.to} onClick={quit}>
-            <p className='header__text-link header__text-link_type_exit'>Выйти</p>
+          <p className={classHeaderText}>{userEmail}</p>
+          <Link className={classHeaderLink} to={link} onClick={quit}>
+            <p className={`${classHeaderTextLink} ${classHeaderTextLinkExit}`}>{btnToHomeText}</p>
           </Link>
         </>
         :
-        <Link className='header__link' to={buttonData.to}>
-          <p className='header__text-link'>{buttonData.text}</p>
+        <Link className={classHeaderLink} to={link}>
+          <p className={classHeaderTextLink}>{btnText}</p>
         </Link>}
     </div>
   );

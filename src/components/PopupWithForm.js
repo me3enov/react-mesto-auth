@@ -1,4 +1,37 @@
-function PopupWithForm ({ isOpen, onClose, name, title, children, buttonText, buttonTextLoading, onSubmit, isLoading }) {
+function PopupWithForm ({
+  formAll,
+  popupConfig,
+  popupWithFormConfig,
+  isOpen,
+  onClose,
+  name,
+  title,
+  children,
+  buttonText,
+  buttonTextLoading,
+  onSubmit,
+  isLoading }){
+
+  const {
+    classForm,
+    classFormTitle,
+    classFormInputContainer,
+    classFormSubmitButton,
+    classFormSubmitButtonWhiteLoader,
+    typeBtn,
+    typeBtnSubmit
+  } = formAll;
+  const {
+    classPopup,
+    classPopupOpened,
+    classContainer,
+    classPopupCloseButton
+  } = popupConfig;
+  const {
+    classPopupPlace,
+    classFormPlace,
+    classFormName
+  } = popupWithFormConfig;
 
   function handleClickClose(evt) {
     if (evt.target === evt.currentTarget) {
@@ -9,30 +42,29 @@ function PopupWithForm ({ isOpen, onClose, name, title, children, buttonText, bu
   return (
     <div
       onClick={handleClickClose}
-      className={(isOpen ? `popup popup_place_${name}
-        popup_opened` :
-        `popup popup_place_${name}`)}>
-      <div className='popup__container'>
+      className={`${classPopup} ${classPopupPlace}${name} ${isOpen ?
+      classPopupOpened : ''}`}>
+      <div className={classContainer}>
         <button
-          type='button'
-          className='popup__close-button'
-          onClick={onClose}
-          aria-label='Закрыть'>
+          type={typeBtn}
+          className={classPopupCloseButton}
+          onClick={onClose}>
         </button>
         <form
-          id={`form_place_${name}`}
-          className={`form form_place_${name}`}
-          name={`form__${name}`}
+          id={`${classFormPlace}${name}`}
+          className={`${classForm} ${classFormPlace}${name}`}
+          name={`${classFormName}${name}`}
           noValidate
           onSubmit={onSubmit}>
-            <h2 className='form__title'>{title}</h2>
-            <fieldset className='form__input-container'>
+            <h2 className={classFormTitle}>
+              {title}
+            </h2>
+            <fieldset className={classFormInputContainer}>
               {children}
               <button
-              type='submit'
-              className={`form__submit-button
-                ${isLoading ?
-                'form__submit-button_loading-white-icon'
+              type={typeBtnSubmit}
+              className={`${classFormSubmitButton} ${isLoading ?
+                classFormSubmitButtonWhiteLoader
                 : ''}`}>
                 {isLoading ?
                 buttonTextLoading

@@ -1,8 +1,36 @@
 import { useRef, useEffect } from 'react';
 import PopupWithForm from './PopupWithForm';
 
-function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
+function EditAvatarPopup({
+  formAll,
+  editAvatarPopupConfig,
+  popupConfig,
+  popupWithFormConfig,
+  isOpen,
+  onClose,
+  onUpdateAvatar,
+  isLoading }) {
+
   const avaRef = useRef(null);
+  const {
+    typeInputUrl,
+    classInput,
+    //classErrorInput,
+    classSpan,
+    //classErrorSpan
+  } = formAll;
+  const {
+    nameForm,
+    titleForm,
+    buttonText,
+    buttonTextLoading,
+    idInputAvatar,
+    classInputAvatar,
+    nameInputAvatar,
+    placeholderInputAvatar,
+    idSpanAvatar,
+    classSpanAvatar
+  } = editAvatarPopupConfig;
 
   useEffect(() => {
     avaRef.current.value = '';
@@ -17,25 +45,30 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
 
   return(
     <PopupWithForm
-      name='avatar'
-      title='Обновить аватар'
-      buttonText='Сохранить'
-      buttonTextLoading='Сохранение...'
+      formAll={formAll}
+      popupConfig={popupConfig}
+      popupWithFormConfig={popupWithFormConfig}
+      name={nameForm}
+      title={titleForm}
+      buttonText={buttonText}
+      buttonTextLoading={buttonTextLoading}
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
       isLoading={isLoading}>
         <input
-          id='form__input_string_avatar'
-          className='form__input form__input_string_avatar'
-          type='url'
-          name='link'
-          placeholder='Ссылка на картинку'
+          id={idInputAvatar}
+          className={`${classInput} ${classInputAvatar}`}
+          type={typeInputUrl}
+          name={nameInputAvatar}
+          placeholder={placeholderInputAvatar}
           required
-          ref={avaRef}/>
+          ref={avaRef}
+        />
         <span
-          id='form__input_string_avatar-error'
-          className='form__input-error'/>
+          id={idSpanAvatar}
+          className={`${classSpan} ${classSpanAvatar}`}
+        />
       </PopupWithForm>
   )
 }

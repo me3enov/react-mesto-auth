@@ -1,6 +1,22 @@
 import PopupWithForm from './PopupWithForm';
 
-function ConfirmPopup({ card, onDelete, isOpen, onClose, isLoading }) {
+function ConfirmPopup({
+  formAll,
+  confirmPopupConfig,
+  popupConfig,
+  popupWithFormConfig,
+  card,
+  onDelete,
+  isOpen,
+  onClose,
+  isLoading }) {
+
+  const {
+    nameForm,
+    titleForm,
+    buttonText,
+    buttonTextLoading
+  } = confirmPopupConfig;
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -9,10 +25,13 @@ function ConfirmPopup({ card, onDelete, isOpen, onClose, isLoading }) {
 
   return (
     <PopupWithForm
-      name='confirm'
-      title='Вы уверены?'
-      buttonText='Да'
-      buttonTextLoading='Удаление...'
+      formAll={formAll}
+      popupConfig={popupConfig}
+      popupWithFormConfig={popupWithFormConfig}
+      name={nameForm}
+      title={titleForm}
+      buttonText={buttonText}
+      buttonTextLoading={buttonTextLoading}
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}

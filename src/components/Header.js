@@ -2,39 +2,61 @@ import { useState } from 'react';
 import { Route, Link, useHistory } from 'react-router-dom';
 import NavBar from './NavBar';
 
-function Header({ loggedIn, userEmail, onQuit }) {
+function Header({
+  loggedIn,
+  userEmail,
+  routeLinks,
+  formAll,
+  btnRouteLinksText,
+  headerConfig,
+  navBarConfig,
+  onQuit }) {
+
   const [btnMenuActive, setBtnMenuActive] = useState(false);
   const history = useHistory();
-
-  const buttons = {
-    signup: { to: '/signin', text: 'Войти' },
-    signin: { to: '/signup', text: 'Регистрация' },
-    home: { to: '/signin', text: 'ВойтВыйтии' }
-  }
+  const { typeBtn } = formAll;
+  const {
+    signUpLink,
+    signInLink,
+    homeLink
+  } = routeLinks;
+  const {
+    btnToSignUpText,
+    btnToSignInText,
+    btnToHomeText
+  } = btnRouteLinksText;
+  const {
+    classHeader,
+    classHeaderBlockLogo,
+    classHeaderLink,
+    classHeaderLogo,
+    classHeaderMenuButton,
+    classHeaderMenuButtonClose
+  } = headerConfig;
 
   const quit = () => {
     onQuit();
     localStorage.removeItem('jwt');
-    history.push('/signin');
+    history.push(signInLink);
   };
 
   const handleSetBtnMenuActive = () => {
     setBtnMenuActive(!btnMenuActive);
   };
 
-  function getBtnMenuActive ({ buttonData }) {
+  function getBtnMenuActive (props) {
     return (
       <>
-        <div className='header__block-logo'>
-          <Link className='header__link' to='/'>
-            <div className='header__logo'></div>
+        <div className={classHeaderBlockLogo}>
+          <Link className={classHeaderLink} to={homeLink}>
+            <div className={classHeaderLogo}></div>
           </Link>
           <button
-            className={`header__menu-button
+            className={`${classHeaderMenuButton}
             ${btnMenuActive ?
-              'header__menu-button_state_close'
+              classHeaderMenuButtonClose
               : ''}`}
-            type='button'
+            type={typeBtn}
             onClick={handleSetBtnMenuActive}
           />
         </div>
@@ -42,25 +64,35 @@ function Header({ loggedIn, userEmail, onQuit }) {
           loggedIn={loggedIn}
           btnMenuActive={btnMenuActive}
           userEmail={userEmail}
-          buttonData={buttonData}
-          quit={quit}/>
+          link={props.link}
+          btnText={props.btnText}
+          btnRouteLinksText={btnRouteLinksText}
+          navBarConfig={navBarConfig}
+          quit={quit}
+        />
       </>
     )
   }
 
   return (
-    <header className='header root__header'>
-      <Route path='/signup'>
-        {getBtnMenuActive (
-          { buttonData: buttons.signup} )}
+    <header className={classHeader}>
+      <Route path={signUpLink}>
+        {getBtnMenuActive ({
+          link: signInLink,
+          btnText: btnToSignInText
+        })}
       </Route>
-      <Route path='/signin'>
-        {getBtnMenuActive (
-          { buttonData: buttons.signin} )}
+      <Route path={signInLink}>
+        {getBtnMenuActive ({
+          link: signUpLink,
+          btnText: btnToSignUpText
+        })}
       </Route>
-      <Route exact path='/'>
-        {getBtnMenuActive (
-          { buttonData: buttons.home} )}
+      <Route exact path={homeLink}>
+        {getBtnMenuActive ({
+          link: homeLink,
+          btnText: btnToHomeText
+        })}
       </Route>
     </header>
   );

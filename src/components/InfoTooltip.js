@@ -1,20 +1,52 @@
-function InfoTooltip ({ isOpen, isSuccess, onClose }) {
+function InfoTooltip ({
+  formAll,
+  popupConfig,
+  InfoTooltipConfig,
+  isOpen,
+  isSuccess,
+  onClose }) {
+
+  const { typeBtn } = formAll;
+  const {
+    classPopup,
+    classPopupOpened,
+    classPopupTitle,
+    classContainer,
+    classPopupCloseButton
+  } = popupConfig;
+  const {
+    classPopupPlaceTooltip,
+    classPopupCloseButtonPlaceTooltip,
+    classPopupSignIcon,
+    classPopupSignIconSuccess,
+    classPopupSignIconFail,
+    successText,
+    failText
+  } = InfoTooltipConfig;
+
+  function handleClickClose(evt) {
+    if (evt.target === evt.currentTarget) {
+      onClose();
+    }
+  }
+
   return (
-    <div className={`popup popup popup_place_tooltip ${isOpen ? 'popup_opened' : ''}`}>
-      <div className='popup__container'>
+    <div
+      className={`${classPopup} ${classPopupPlaceTooltip} ${isOpen && classPopupOpened}`}
+      onClick={handleClickClose}>
+      <div className={classContainer}>
         <button
-          type='button'
-          className='popup__close-button'
-          onClick={onClose}
-          aria-label='Закрыть'>
+          className={`${classPopupCloseButton} ${classPopupCloseButtonPlaceTooltip}`}
+          type={typeBtn}
+          onClick={onClose}>
         </button>
-        <div className={`popup__sign-icon
+        <div className={`${classPopupSignIcon}
           ${isSuccess ?
-          'popup__sign-icon_type_success'
-          : 'popup__sign-icon_type_fail'}`}>
+          classPopupSignIconSuccess
+          : classPopupSignIconFail}`}>
         </div>
-        <h2 className='popup__title'>
-          {isSuccess ? 'Вы успешно зарегистрировались!' : 'Что-то пошло не так! Попробуйте ещё раз.'}
+        <h2 className={classPopupTitle}>
+          {isSuccess ? successText : failText}
         </h2>
       </div>
     </div>

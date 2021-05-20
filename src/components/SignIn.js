@@ -54,11 +54,10 @@ function SignIn({ handleSignIn, onLoading, isLoading }) {
         <fieldset className='sign__auth-box'>
           <button
             type='submit'
-            className={isLoading ? (
-              'form__submit-button form__submit-button_place_sign form__submit-button_loading-black-icon'
-            ) : (
-              'form__submit-button form__submit-button_place_sign'
-            )}>
+            className={`form__submit-button form__submit-button_place_sign
+              ${isLoading ?
+              'form__submit-button_loading-black-icon'
+              : ''}`}>
               {isLoading ?
               'Вход...'
               : 'Войти'}

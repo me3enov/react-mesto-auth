@@ -30,11 +30,10 @@ function PopupWithForm ({ isOpen, onClose, name, title, children, buttonText, bu
               {children}
               <button
               type='submit'
-              className={isLoading ? (
-                'form__submit-button form__submit-button_loading-white-icon'
-              ) : (
-                'form__submit-button'
-              )}>
+              className={`form__submit-button
+                ${isLoading ?
+                'form__submit-button_loading-white-icon'
+                : ''}`}>
                 {isLoading ?
                 buttonTextLoading
                 : buttonText}

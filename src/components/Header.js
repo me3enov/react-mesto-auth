@@ -24,45 +24,27 @@ function Header({ loggedIn, userEmail, onQuit }) {
 
   function getBtnMenuActive ({ buttonData }) {
     return (
-        !btnMenuActive ? (
-          <>
-          <div className='header__block-logo'>
-            <Link className='header__link' to='/'>
-              <div className='header__logo'></div>
-            </Link>
-            <button
-              className='header__menu-button'
-              type='button'
-              onClick={handleSetBtnMenuActive}
-            />
-          </div>
-          <NavBar
-            loggedIn={loggedIn}
-            btnMenuActive={btnMenuActive}
-            userEmail={userEmail}
-            buttonData={buttonData}
-            quit={quit}/>
-          </>
-        ) : (
-        <>
-          <NavBar
-            loggedIn={loggedIn}
-            btnMenuActive={btnMenuActive}
-            userEmail={userEmail}
-            buttonData={buttonData}
-            quit={quit}/>
-          <div className='header__block-logo'>
-            <Link className='header__link' to='/'>
-              <div className='header__logo'></div>
-            </Link>
-            <button
-              className='header__menu-button header__menu-button_state_close'
-              type='button'
-              onClick={handleSetBtnMenuActive}
-            />
-          </div>
-        </>
-      )
+      <>
+        <div className='header__block-logo'>
+          <Link className='header__link' to='/'>
+            <div className='header__logo'></div>
+          </Link>
+          <button
+            className={`header__menu-button
+            ${btnMenuActive ?
+              'header__menu-button_state_close'
+              : ''}`}
+            type='button'
+            onClick={handleSetBtnMenuActive}
+          />
+        </div>
+        <NavBar
+          loggedIn={loggedIn}
+          btnMenuActive={btnMenuActive}
+          userEmail={userEmail}
+          buttonData={buttonData}
+          quit={quit}/>
+      </>
     )
   }
 

@@ -21,8 +21,9 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
-  const [isRegisterStatusPopupOpen, setIsRegisterStatusPopupOpen] = useState(false);
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
+  const [isSuccessSignUp, setIsSuccessSignUp] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
@@ -66,11 +67,7 @@ function App() {
 
   function handleAddPlace(card) {
     setLoading(true);
-    const cardData = {
-      name: card.name,
-      link: card.link
-    };
-    api.addNewCard(cardData)
+    api.addNewCard(card)
       .then(res => {
         setCards([res, ...cards]);
         closeAllPopups();
@@ -161,7 +158,7 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setIsDeletePopupOpen(false);
     setIsImagePopupOpen(false);
-    setIsRegisterStatusPopupOpen(false);
+    setIsInfoTooltipOpen(false);
     setSelectedCard(null)
   }
 
@@ -204,7 +201,8 @@ function App() {
                 onCardDelete={handleDeleteClick} />
               <Route path='/signup'>
                 <SignUp
-                  onInfoTooltipOpen={setIsRegisterStatusPopupOpen}
+                  onInfoTooltipOpen={setIsInfoTooltipOpen}
+                  setIsSuccessSignUp={setIsSuccessSignUp}
                   onLoading={setLoading}
                   isLoading={isLoading} />
               </Route>
@@ -248,7 +246,8 @@ function App() {
             card={selectedCard}
             isLoading={isLoading} />
           <InfoTooltip
-            isOpen={isRegisterStatusPopupOpen}
+            isOpen={isInfoTooltipOpen}
+            isSuccess={isSuccessSignUp}
             onClose={closeAllPopups} />
         </div>
       </div>

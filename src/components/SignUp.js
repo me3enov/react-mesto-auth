@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { registration } from '../utils/auth';
 
-function SignUp ({ onInfoTooltipOpen, onLoading, isLoading }) {
+function SignUp ({ onInfoTooltipOpen, setIsSuccessSignUp, onLoading, isLoading }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -14,13 +14,16 @@ function SignUp ({ onInfoTooltipOpen, onLoading, isLoading }) {
     registration(email, password)
       .then((res) => {
         history.push('/');
-        onInfoTooltipOpen(res);
+        setIsSuccessSignUp(true)
       })
       .catch((err) => {
-        onInfoTooltipOpen(err);
+        setIsSuccessSignUp(false);
         console.log(err);
       })
-      .finally(() => onLoading(false));
+      .finally(() => {
+        onInfoTooltipOpen(true);
+        onLoading(false);
+      });
   };
 
   return (
@@ -54,11 +57,10 @@ function SignUp ({ onInfoTooltipOpen, onLoading, isLoading }) {
         <fieldset className='sign__auth-box'>
           <button
             type='submit'
-            className={isLoading ? (
-              'form__submit-button form__submit-button_place_sign form__submit-button_loading-black-icon'
-            ) : (
-              'form__submit-button form__submit-button_place_sign'
-            )}>
+            className={`form__submit-button form__submit-button_place_sign
+              ${isLoading ?
+              'form__submit-button_loading-black-icon'
+              : ''}`}>
               {isLoading ?
               'Регистрация...'
               : 'Зарегистрироваться'}

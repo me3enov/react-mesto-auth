@@ -1,36 +1,8 @@
 import { useRef, useEffect } from 'react';
 import PopupWithForm from './PopupWithForm';
 
-function EditAvatarPopup({
-  formAll,
-  editAvatarPopupConfig,
-  popupConfig,
-  popupWithFormConfig,
-  isOpen,
-  onClose,
-  onUpdateAvatar,
-  isLoading }) {
-
+function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
   const avaRef = useRef(null);
-  const {
-    typeInputUrl,
-    classInput,
-    //classErrorInput,
-    classSpan,
-    //classErrorSpan
-  } = formAll;
-  const {
-    nameForm,
-    titleForm,
-    buttonText,
-    buttonTextLoading,
-    idInputAvatar,
-    classInputAvatar,
-    nameInputAvatar,
-    placeholderInputAvatar,
-    idSpanAvatar,
-    classSpanAvatar
-  } = editAvatarPopupConfig;
 
   useEffect(() => {
     avaRef.current.value = '';
@@ -45,30 +17,25 @@ function EditAvatarPopup({
 
   return(
     <PopupWithForm
-      formAll={formAll}
-      popupConfig={popupConfig}
-      popupWithFormConfig={popupWithFormConfig}
-      name={nameForm}
-      title={titleForm}
-      buttonText={buttonText}
-      buttonTextLoading={buttonTextLoading}
+      name='avatar'
+      title='Обновить аватар'
+      buttonText='Сохранить'
+      buttonTextLoading='Сохранение...'
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
       isLoading={isLoading}>
         <input
-          id={idInputAvatar}
-          className={`${classInput} ${classInputAvatar}`}
-          type={typeInputUrl}
-          name={nameInputAvatar}
-          placeholder={placeholderInputAvatar}
+          id='form__input_string_avatar'
+          className='form__input form__input_string_avatar'
+          type='url'
+          name='link'
+          placeholder='Ссылка на картинку'
           required
-          ref={avaRef}
-        />
+          ref={avaRef}/>
         <span
-          id={idSpanAvatar}
-          className={`${classSpan} ${classSpanAvatar}`}
-        />
+          id='form__input_string_avatar-error'
+          className='form__input-error'/>
       </PopupWithForm>
   )
 }

@@ -1,29 +1,16 @@
 import { useContext } from 'react';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 
-function Card({
-  card,
-  formAll,
-  cardConfig,
-  onCardClick,
-  onCardLike,
-  onCardDelete }) {
-
+function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   const currentUser = useContext(CurrentUserContext);
   const isOwn = card.owner._id === currentUser._id;
-  const { typeBtn } = formAll;
-  const {
-    classCard,
-    classCardImage,
-    classCardTitle,
-    classCardLikeContainer,
-    classCardLikeCount,
-    classDeleteBtn,
-    classDeleteBtnActive,
-    classLikeBtn,
-    classLikeBtnLiked
-  } = cardConfig;
+  const cardDeleteButtonClassName = (
+    `card__bin ${isOwn ? 'card__bin__visible' : ''}`
+  );
   const isLiked = card.likes.some(i => i._id === currentUser._id);
+  const cardLikeButtonClassName = (
+    `card__like ${isLiked ? 'card__like_state_liked' : ''}`
+  );
 
   function handleCardClick() {
     onCardClick(card)
@@ -38,37 +25,13 @@ function Card({
   }
 
   return(
-    <li className={classCard}>
-      <div
-        className={classCardImage}
-        style={{ backgroundImage: `url(${card.link})` }}
-        onClick={handleCardClick}
-      />
-      <button
-        className={
-          `${classDeleteBtn}
-          ${isOwn ?
-          classDeleteBtnActive
-          : ''}`}
-        type={typeBtn}
-        onClick={handleDeleteCard}
-      />
-      <h2 className={classCardTitle}>
-        {card.name}
-      </h2>
-      <div className={classCardLikeContainer}>
-        <button
-          className={
-            `${classLikeBtn}
-            ${isLiked ?
-            classLikeBtnLiked
-            : ''}`}
-          type={typeBtn}
-          onClick={handleCardLike}
-        />
-        <span className={classCardLikeCount}>
-          {card.likes.length}
-        </span>
+    <li className='card'>
+      <div className='card__image' style={{ backgroundImage: `url(${card.link})` }} onClick={handleCardClick}/>
+      <button className={cardDeleteButtonClassName} type='button' onClick={handleDeleteCard}/>
+      <h2 className='card__title'>{card.name}</h2>
+      <div className='card__like-container'>
+        <button className={cardLikeButtonClassName} type='button' onClick={handleCardLike}/>
+        <span className='card__like-count'>{card.likes.length}</span>
       </div>
   </li>
   )

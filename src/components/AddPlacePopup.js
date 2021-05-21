@@ -1,46 +1,9 @@
 import { useState, useEffect } from 'react';
 import PopupWithForm from './PopupWithForm';
 
-function AddPlacePopup ({
-  formAll,
-  addPlacePopupConfig,
-  popupConfig,
-  popupWithFormConfig,
-  isOpen,
-  onClose,
-  onAddPlace,
-  isLoading }) {
-
+function AddPlacePopup ({ isOpen, onClose, onAddPlace, isLoading }) {
   const [cardTitle, setCardTitle] = useState('');
   const [cardLink, setCardLink] = useState('');
-  const {
-    typeInputText,
-    typeInputUrl,
-    classInput,
-    //classErrorInput,
-    classSpan,
-    //classErrorSpan
-  } = formAll;
-  const {
-    nameForm,
-    titleForm,
-    buttonText,
-    buttonTextLoading,
-    idInputName,
-    classInputName,
-    nameInputName,
-    placeholderInputName,
-    minLengthInputName,
-    maxLengthInputName,
-    idSpanName,
-    classSpanName,
-    idInputLink,
-    classInputLink,
-    nameInputLink,
-    placeholderInputLink,
-    idSpanLink,
-    classSpanLink
-  } = addPlacePopupConfig;
 
   function handleCardTitle(event) {
     setCardTitle(event.target.value)
@@ -66,47 +29,40 @@ function AddPlacePopup ({
 
   return(
     <PopupWithForm
-      formAll={formAll}
-      popupConfig={popupConfig}
-      popupWithFormConfig={popupWithFormConfig}
-      name={nameForm}
-      title={titleForm}
-      buttonText={buttonText}
-      buttonTextLoading={buttonTextLoading}
+      name='add'
+      title='Новое место'
+      buttonText='Создать'
+      buttonTextLoading='Создание...'
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
       isLoading={isLoading}>
         <input
-          id={idInputName}
-          className={`${classInput} ${classInputName}`}
-          type={typeInputText}
-          name={nameInputName}
-          placeholder={placeholderInputName}
-          minLength={minLengthInputName}
-          maxLength={maxLengthInputName}
+          id='form__input_string_title'
+          className='form__input form__input_string_title'
+          type='text'
+          name='name'
+          placeholder='Название'
+          minLength='2'
+          maxLength='30'
           required
           onChange={handleCardTitle}
-          value={cardTitle ? cardTitle : ''}
-        />
+          value={cardTitle ? cardTitle : ''}/>
         <span
-          id={idSpanName}
-          className={`${classSpan} ${classSpanName}`}
-        />
+          id='form__input_string_title-error'
+          className='form__input-error'/>
         <input
-          id={idInputLink}
-          className={`${classInput} ${classInputLink}`}
-          type={typeInputUrl}
-          name={nameInputLink}
-          placeholder={placeholderInputLink}
+          id='form__input_string_link'
+          className='form__input form__input_string_link'
+          type='url'
+          name='link'
+          placeholder='Ссылка на картинку'
           required
           onChange={handleCardLink}
-          value={cardLink ? cardLink : ''}
-        />
+          value={cardLink ? cardLink : ''}/>
         <span
-          id={idSpanLink}
-          className={`${classSpan} ${classSpanLink}`}
-        />
+          id='form__input_string_link-error'
+          className='form__input-error'/>
     </PopupWithForm>
   )
 }

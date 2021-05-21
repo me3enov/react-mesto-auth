@@ -1,38 +1,25 @@
-import { Link } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 
-function NavBar ({
-  loggedIn,
-  btnMenuActive,
-  userEmail,
-  link,
-  btnText,
-  btnRouteLinksText,
-  navBarConfig,
-  quit }) {
-
-  const { btnToHomeText } = btnRouteLinksText;
-  const {
-    classHeaderBlockSign,
-    classHeaderBlockSignOpened,
-    classHeaderText,
-    classHeaderLink,
-    classHeaderTextLink,
-    classHeaderTextLinkExit
-  } = navBarConfig;
+function NavBar ({ btnMenuActive, userEmail, quit }) {
 
   return (
-    <div className={`${classHeaderBlockSign} ${btnMenuActive ? classHeaderBlockSignOpened : ''}`}>
-      {loggedIn ?
-        <>
-          <p className={classHeaderText}>{userEmail}</p>
-          <Link className={classHeaderLink} to={link} onClick={quit}>
-            <p className={`${classHeaderTextLink} ${classHeaderTextLinkExit}`}>{btnToHomeText}</p>
-          </Link>
-        </>
-        :
-        <Link className={classHeaderLink} to={link}>
-          <p className={classHeaderTextLink}>{btnText}</p>
-        </Link>}
+    <div className={`header__block-sign ${btnMenuActive ? 'header__block-sign_opened' : ''}`}>
+      <Route path='/signup'>
+        <Link className='header__link' to={'/signin'}>
+          <p className='header__text-link'>Войти</p>
+        </Link>
+      </Route>
+      <Route path='/signin'>
+        <Link className='header__link' to={'/signup'}>
+          <p className='header__text-link'>Регистрация</p>
+        </Link>
+      </Route>
+      <Route exact path='/'>
+        <p className='header__text'>{userEmail}</p>
+        <Link className='header__link' to='/' onClick={quit}>
+          <p className='header__text-link header__text-link_type_exit'>Выйти</p>
+        </Link>
+      </Route>
     </div>
   );
 }

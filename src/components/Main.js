@@ -2,70 +2,39 @@ import { useContext } from 'react';
 import Card from './Card'
 import CurrentUserContext from '../contexts/CurrentUserContext';
 
-function Main({
-  formAll,
-  mainConfig,
-  cardConfig,
-  onEditAvatar,
-  onEditProfile,
-  onAddPlace,
-  cards,
-  onCardClick,
-  onCardLike,
-  onCardDelete }) {
-
+function Main({ onEditAvatar, onEditProfile, onAddPlace, cards, onCardClick, onCardLike, onCardDelete }) {
   const currentUser = useContext(CurrentUserContext);
-  const { typeBtn } = formAll;
-  const {
-    classContent,
-    classProfile,
-    classProfileAvatar,
-    classProfileLine,
-    classProfileName,
-    classProfileEditButton,
-    classProfileJob,
-    classProfileAddButton,
-    classCards,
-    ariaLabelCards,
-    classGallery
-  } = mainConfig;
 
   return (
-    <main className={classContent}>
-      <section className={classProfile}>
-        <button className={classProfileAvatar}
-          type={typeBtn}
+    <main className='content'>
+      <section className='profile root__profile'>
+        <button className='profile__avatar'
+          type='button'
           style={{ backgroundImage: `url(${currentUser.avatar})` }}
           onClick={onEditAvatar}>
         </button>
-        <div className={classProfileLine}>
-          <h1 className={classProfileName}>
-            {currentUser.name}
-          </h1>
+        <div className='profile__line'>
+          <h1 className='profile__name'>{currentUser.name}</h1>
           <button
-            type={typeBtn}
-            className={classProfileEditButton}
+            type='button'
+            className='profile__edit-button'
             onClick={onEditProfile}>
           </button>
         </div>
-        <p className={classProfileJob}>
-          {currentUser.about}
-        </p>
+        <p className='profile__job'>{currentUser.about}</p>
         <button
-          type={typeBtn}
-          className={classProfileAddButton}
+          type='button'
+          className='profile__add-button'
           onClick={onAddPlace}>
         </button>
       </section>
 
-      <section className={classCards} aria-label={ariaLabelCards}>
-        <ul className={classGallery}>
+      <section className='cards' aria-label='Cards'>
+        <ul className='gallery'>
           {cards.map((card) => (
             <Card
               key={card._id}
               card={card}
-              formAll={formAll}
-              cardConfig={cardConfig}
               onCardClick={onCardClick}
               onCardLike={onCardLike}
               onCardDelete={onCardDelete}
